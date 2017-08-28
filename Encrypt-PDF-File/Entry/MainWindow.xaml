@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="PDF 防護" Height="344.231" Width="682.396" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize"
         >
-    <Grid>        
+    <Grid>         
         <StackPanel Orientation="Vertical">
             <GroupBox Header="選擇待加密 PDF 文件檔案" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Height="65" Width="645">
                 <StackPanel Orientation="Horizontal">

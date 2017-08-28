@@ -1,0 +1,54 @@
+﻿<Window x:Class="Entry.MainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Entry"
+        mc:Ignorable="d"
+        Title="MainView" Height="390" Width="710" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize">
+    <Grid>
+        <StackPanel Orientation="Vertical">
+            <GroupBox Header="密碼設定" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Height="65" Width="645">
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Name="IsNeedPassWordForOpenFileCheckBox" Content="開啟檔案需要輸入密碼：" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Checked="IsNeedPassWordForOpenFileCheckBox_Checked" Unchecked="IsNeedPassWordForOpenFileCheckBox_Checked"/>
+                    <TextBox Name="PasswordTextBox" HorizontalAlignment="Left" Height="23" Margin="0,8,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="187" IsEnabled="False"/>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Header="權限設定" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Height="90" Width="645">
+                <StackPanel Orientation="Vertical"  Margin="0,0,0,-3">
+                    <CheckBox Name="AllowPrintingCheckBox" Margin="10,10,0,0" Content="允許列印文件" />
+                    <CheckBox Name="AllowCopyCheckBox" Margin="10,10,0,0" Content="允許複製內容" />
+                </StackPanel>
+            </GroupBox>
+            <TabControl HorizontalAlignment="Left" Height="160" Width="680" Margin="10,10,0,0" VerticalAlignment="Top" >
+                <TabItem Header="PDF 鎖定">
+                    <Grid Background="#FFE5E5E5">
+                        <StackPanel Orientation="Vertical">
+                            <GroupBox Header="選擇待加密 PDF 文件檔案" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Height="65" Width="645">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox Name="FilePathTextBox"  HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="536" IsReadOnly="True"/>
+                                    <Button Content="選取檔案" HorizontalAlignment="Left" Margin="5,10,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="1.247,-0.265" Click="Button_Click"/>
+                                </StackPanel>
+                            </GroupBox>
+
+                            <Button Name="SaveAsButton" Content="確定" HorizontalAlignment="Left" Margin="538,10,0,0" VerticalAlignment="Top" Width="115" Click="Button_Click_1" Height="36"/>
+                        </StackPanel>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Word to PDF">
+                    <Grid Background="#FFE5E5E5">
+                        <StackPanel Orientation="Vertical">
+                            <GroupBox Header="選擇待輸出的 Word 文件檔案" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Height="65" Width="645">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox Name="WordFilePathTextBox"  HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="536" IsReadOnly="True"/>
+                                    <Button Content="選取檔案" HorizontalAlignment="Left" Margin="5,10,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="1.247,-0.265" Click="WordFileSelectButton_Click"/>
+                                </StackPanel>
+                            </GroupBox>
+                            <Button Name="SaveAsPDFButton" Content="確定" HorizontalAlignment="Left" Margin="538,10,0,0" VerticalAlignment="Top" Width="115" Click="SaveAsPDFButton_Click" Height="36"/>
+                        </StackPanel>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </StackPanel>
+    </Grid>
+</Window>
