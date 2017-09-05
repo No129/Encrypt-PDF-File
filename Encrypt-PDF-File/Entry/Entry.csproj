@@ -76,6 +76,7 @@
     <Compile Include="MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PDFHelper.cs" />
     <Compile Include="TargetFile.cs" />
     <Page Include="MainView.xaml">
       <SubType>Designer</SubType>

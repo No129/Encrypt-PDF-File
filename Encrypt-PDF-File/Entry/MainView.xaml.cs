@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using System.Windows;
 using Microsoft.Office.Interop.Word;
+using System.Collections.Generic;
 
 namespace Entry
 {
@@ -12,10 +13,16 @@ namespace Entry
     /// </summary>
     public partial class MainView : System.Windows.Window
     {
+        #region -- 建構/解構 ( Constructors/Destructor ) --
+
         public MainView()
         {
             InitializeComponent();
         }
+
+        #endregion
+
+        #region -- 事件處理 ( Event Handlers ) --
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -51,6 +58,40 @@ namespace Entry
             }
         }
 
+        private void MergeWordFileSelectButton_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.OpenFileDialog objFileDialog = new System.Windows.Forms.OpenFileDialog();
+
+            objFileDialog.Title = "請選取合併 Word 檔案";
+            objFileDialog.InitialDirectory = "C:\\";
+            if (objFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                this.MergeWordFilePathTextBox.Text = objFileDialog.FileName;
+                this.MergeAsPDFButton.IsEnabled = true;
+            }
+            else
+            {
+                this.MergeAsPDFButton.IsEnabled = false;
+            }
+        }
+
+        private void MergePDFFileSelectButton_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.OpenFileDialog objFileDialog = new System.Windows.Forms.OpenFileDialog();
+
+            objFileDialog.Title = "請選取合併 Word 檔案";
+            objFileDialog.InitialDirectory = "C:\\";
+            if (objFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                this.MergePDFFilePathTextBox.Text = objFileDialog.FileName;
+                this.MergeAsPDFButton.IsEnabled = true;
+            }
+            else
+            {
+                this.MergeAsPDFButton.IsEnabled = false;
+            }
+        }
+
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             this.SetPDFFile(this.FilePathTextBox.Text);
@@ -60,36 +101,38 @@ namespace Entry
         private void SaveAsPDFButton_Click(object sender, RoutedEventArgs e)
         {
             string sWordPath = this.WordFilePathTextBox.Text;
-            string sPDFPath = this.GetPDFFilePath(sWordPath);
+            string sPDFPath = new PDFHelper().FromWord(sWordPath);
 
             if (string.IsNullOrEmpty(sPDFPath) != true)
             {
-                Microsoft.Office.Interop.Word.Application objApp = null;
-                Microsoft.Office.Interop.Word.Document objDoc = null;
-
-                objApp = new Microsoft.Office.Interop.Word.Application();
-                objDoc = objApp.Documents.Open(sWordPath);                           
-
-                objDoc.ExportAsFixedFormat(sPDFPath,
-                    Microsoft.Office.Interop.Word.WdExportFormat.wdExportFormatPDF,
-                    false,
-                    Microsoft.Office.Interop.Word.WdExportOptimizeFor.wdExportOptimizeForPrint,
-                    Microsoft.Office.Interop.Word.WdExportRange.wdExportAllDocument,
-                    IncludeDocProps: true,
-                    BitmapMissingFonts: true,
-                    Item: Microsoft.Office.Interop.Word.WdExportItem.wdExportDocumentContent);
-
-                objDoc.Close();
-                objApp.Quit(SaveChanges: false);
-                this.SetPDFFile(sPDFPath);
+                this.SetPDFFile(sPDFPath);  //設定檔案保護。
                 MessageBox.Show("完成 Word 檔案輸出。");
-                System.Diagnostics.Process.Start(sPDFPath);
-            }
-            else
-            {
-                MessageBox.Show("執行完畢。");
+                System.Diagnostics.Process.Start(sPDFPath); //打開 PDF 文件。
             }
         }
+
+        private void MergeAsPDFButton_Click(object sender, RoutedEventArgs e)
+        {
+            List<string> objTarget = new List<string>();
+            string sWordPath = this.MergeWordFilePathTextBox.Text;
+            string sPDFPath = new PDFHelper().FromWord(sWordPath);
+
+            if (string.IsNullOrEmpty(sPDFPath) != true)
+            {
+                objTarget.Add(sPDFPath);
+                if (string.IsNullOrEmpty(this.MergePDFFilePathTextBox.Text) != true)
+                {
+                    objTarget.Add(this.MergePDFFilePathTextBox.Text);
+                    string sPDFFile = new PDFHelper().MergePDF(objTarget);
+                    MessageBox.Show("完成檔案整合。");
+                    System.Diagnostics.Process.Start(sPDFFile); //打開 PDF 文件。
+                }
+            }
+        }
+
+        #endregion
+
+        #region -- 私有函式 ( Private Method) --
 
         private void IsNeedPassWordForOpenFileCheckBox_Checked(object sender, RoutedEventArgs e)
         {
@@ -156,5 +199,8 @@ namespace Entry
             }
             objTarget.CleanTempFile();
         }
+
+        #endregion
+
     }
 }

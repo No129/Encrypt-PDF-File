@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Entry"
         mc:Ignorable="d"
-        Title="MainView" Height="390" Width="710" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize">
+        Title="MainView" Height="500" Width="710" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize">
     <Grid>
         <StackPanel Orientation="Vertical">
             <GroupBox Header="密碼設定" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Height="65" Width="645">
@@ -20,7 +20,7 @@
                     <CheckBox Name="AllowCopyCheckBox" Margin="10,10,0,0" Content="允許複製內容" />
                 </StackPanel>
             </GroupBox>
-            <TabControl HorizontalAlignment="Left" Height="160" Width="680" Margin="10,10,0,0" VerticalAlignment="Top" >
+            <TabControl HorizontalAlignment="Left" Height="280" Width="680" Margin="10,10,0,0" VerticalAlignment="Top" >
                 <TabItem Header="PDF 鎖定">
                     <Grid Background="#FFE5E5E5">
                         <StackPanel Orientation="Vertical">
@@ -44,7 +44,26 @@
                                     <Button Content="選取檔案" HorizontalAlignment="Left" Margin="5,10,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="1.247,-0.265" Click="WordFileSelectButton_Click"/>
                                 </StackPanel>
                             </GroupBox>
-                            <Button Name="SaveAsPDFButton" Content="確定" HorizontalAlignment="Left" Margin="538,10,0,0" VerticalAlignment="Top" Width="115" Click="SaveAsPDFButton_Click" Height="36"/>
+                            <Button Name="SaveAsPDFButton" Content="確定" HorizontalAlignment="Left" Margin="538,10,0,0" VerticalAlignment="Top" Width="115" Click="MergeAsPDFButton_Click" Height="36"/>
+                        </StackPanel>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Merge to PDF">
+                    <Grid Background="#ffe5e5e5">
+                        <StackPanel Orientation="Vertical">
+                            <GroupBox Header="Word 文件檔案" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Height="65" Width="645">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox Name="MergeWordFilePathTextBox"  HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="536" IsReadOnly="True"/>
+                                    <Button Content="選取檔案" HorizontalAlignment="Left" Margin="5,10,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="1.247,-0.265" Click="MergeWordFileSelectButton_Click"/>
+                                </StackPanel>
+                            </GroupBox>
+                            <GroupBox Header="PDF 文件檔案" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Height="65" Width="645">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox Name="MergePDFFilePathTextBox"  HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="536" IsReadOnly="True"/>
+                                    <Button Content="選取檔案" HorizontalAlignment="Left" Margin="5,10,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="1.247,-0.265" Click="MergePDFFileSelectButton_Click"/>
+                                </StackPanel>
+                            </GroupBox>
+                            <Button Name="MergeAsPDFButton" Content="確定" HorizontalAlignment="Left" Margin="538,10,0,0" VerticalAlignment="Top" Width="115" Click="MergeAsPDFButton_Click" Height="36"/>
                         </StackPanel>
                     </Grid>
                 </TabItem>
