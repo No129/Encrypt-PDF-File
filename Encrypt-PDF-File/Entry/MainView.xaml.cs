@@ -58,28 +58,37 @@ namespace Entry
         }
 
         private void SaveAsPDFButton_Click(object sender, RoutedEventArgs e)
-        {   
-            Microsoft.Office.Interop.Word.Application objApp = null;
-            Microsoft.Office.Interop.Word.Document objDoc = null;
+        {
             string sWordPath = this.WordFilePathTextBox.Text;
             string sPDFPath = this.GetPDFFilePath(sWordPath);
 
-            objApp = new Microsoft.Office.Interop.Word.Application();
-            objDoc = objApp.Documents.Open(sWordPath);
-            objDoc.ExportAsFixedFormat(sPDFPath,
-                Microsoft.Office.Interop.Word.WdExportFormat.wdExportFormatPDF,
-                false ,
-                Microsoft.Office.Interop.Word.WdExportOptimizeFor.wdExportOptimizeForPrint,
-                Microsoft.Office.Interop.Word.WdExportRange.wdExportAllDocument,
-                IncludeDocProps:true ,
-                BitmapMissingFonts:true,
-                Item:Microsoft.Office.Interop.Word.WdExportItem.wdExportDocumentContent);
+            if (string.IsNullOrEmpty(sPDFPath) != true)
+            {
+                Microsoft.Office.Interop.Word.Application objApp = null;
+                Microsoft.Office.Interop.Word.Document objDoc = null;
 
-            objDoc.Close();
-            objApp.Quit(SaveChanges: false);
-            this.SetPDFFile(sPDFPath);
-            MessageBox.Show("完成 Word 檔案輸出。");
-            System.Diagnostics.Process.Start(sPDFPath);            
+                objApp = new Microsoft.Office.Interop.Word.Application();
+                objDoc = objApp.Documents.Open(sWordPath);                           
+
+                objDoc.ExportAsFixedFormat(sPDFPath,
+                    Microsoft.Office.Interop.Word.WdExportFormat.wdExportFormatPDF,
+                    false,
+                    Microsoft.Office.Interop.Word.WdExportOptimizeFor.wdExportOptimizeForPrint,
+                    Microsoft.Office.Interop.Word.WdExportRange.wdExportAllDocument,
+                    IncludeDocProps: true,
+                    BitmapMissingFonts: true,
+                    Item: Microsoft.Office.Interop.Word.WdExportItem.wdExportDocumentContent);
+
+                objDoc.Close();
+                objApp.Quit(SaveChanges: false);
+                this.SetPDFFile(sPDFPath);
+                MessageBox.Show("完成 Word 檔案輸出。");
+                System.Diagnostics.Process.Start(sPDFPath);
+            }
+            else
+            {
+                MessageBox.Show("執行完畢。");
+            }
         }
 
         private void IsNeedPassWordForOpenFileCheckBox_Checked(object sender, RoutedEventArgs e)
@@ -104,9 +113,17 @@ namespace Entry
             string sFileName = System.IO.Path.GetFileNameWithoutExtension(pi_sWordFilePath);
 
             sReturn = string.Format("{0}\\{1}.pdf", sDirectory, sFileName);
-            if(System.IO.File.Exists(sReturn))
+            if (System.IO.File.Exists(sReturn))
             {
-                System.IO.File.Delete(sReturn);
+                try
+                {
+                    System.IO.File.Delete(sReturn);
+                }
+                catch
+                {
+                    MessageBox.Show("請先關閉先前開啟的 PDF 檔案。");
+                    sReturn = string.Empty;
+                }
             }
 
             return sReturn;
